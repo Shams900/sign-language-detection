@@ -1,0 +1,17 @@
+install django
+install djangorestframwork
+install tensorflow
+install keras
+install torch
+install opencv-python
+install pandas
+install numpy
+instsll matplotlib
+install PyYAML
+install requests
+install scipy
+install utils
+install torchutils
+install tqdm
+install torchvision
+install seaborn

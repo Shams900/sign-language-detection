@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interpreter</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        #upload-form {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #upload-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #upload-container {
+            border: 2px dashed #4CAF50;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 1em;
+            cursor: pointer;
+        }
+
+        #upload-container i {
+            font-size: 48px;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        #upload-container p {
+            font-size: 16px;
+            color: #888;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        #upload-container span {
+            font-size: 16px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        #upload-form input[type="file"] {
+            display: none;
+        }
+
+        #upload-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #upload-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #upload-form input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+
+        #success-message,
+        #error-message {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: block;
+        }
+
+        #error-message {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="upload-form">
+        <h2>Upload Your Image</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="upload-container">
+                <i class="fa fa-cloud-upload"></i>
+                <p>Drag and drop files here</p>
+                <span id="file-name"></span>
+                <input type="file" name="image" id="json-file">
+            </div>
+            <input type="submit" value="Upload">
+        </form>
+        {% if image %}
+        <div>
+            <img src="{{image.image.url}}" width="320"/>
+        </div>
+        {% endif %}
+    </div>
+    <script>
+        document.getElementById("json-file").addEventListener("change", function () {
+            var file = this.files[0];
+            if (file) {
+                document.getElementById("file-name").textContent = file.name;
+            } else {
+                document.getElementById("file-name").textContent = "";
+            }
+        });
+
+        var uploadContainer = document.getElementById("upload-container");
+        uploadContainer.addEventListener("dragenter", function (event) {
+            event.preventDefault();
+            this.style.borderStyle = "dashed";
+        });
+
+        uploadContainer.addEventListener("dragover", function (event) {
+            event.preventDefault();
+        });
+
+        uploadContainer.addEventListener("dragleave", function (event) {
+            this.style.borderStyle = "solid";
+        });
+
+        uploadContainer.addEventListener("drop", function (event) {
+            event.preventDefault();
+            this.style.borderStyle = "solid";
+            var file = event.dataTransfer.files[0];
+            var fileInput = document.getElementById("json-file");
+            fileInput.files = event.dataTransfer.files;
+            if (file) {
+                document.getElementById("file-name").textContent = file.name;
+            } else {
+                document.getElementById("file-name").textContent = "";
+            }
+        });
+
+        document.getElementById("upload-container").addEventListener("click", function () {
+            document.getElementById("json-file").click();
+        });
+    </script>
+</body>
+
+</html>
