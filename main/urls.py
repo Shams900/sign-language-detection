@@ -18,10 +18,12 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
+from sign.views import SignView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('', SignView.as_view(), name='sign-view'),
     path('', include('sign.urls')),
 ]
 

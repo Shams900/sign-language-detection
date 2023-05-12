@@ -3,6 +3,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.SignView.as_view()),
+    path('', views.SignView.as_view(), name='sign-view'),
+    
     path('project/', views.project),
 ]
