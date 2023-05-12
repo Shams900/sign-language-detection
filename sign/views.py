@@ -17,8 +17,8 @@ import io
 
 
 cwd = os.getcwd()
-#print("E7naa ahena" , cwd)
-model = torch.hub.load( "sign/yolov5", 'custom', source='local', path="F:/shams/grad-project/django/main/sign/yolov5/best.pt", force_reload=True)
+# print("E7naa ahena" , cwd)
+model = torch.hub.load( "sign/yolov5", 'custom', source='local', path=cwd + "/sign/yolov5/best.pt", force_reload=True)
 
 @parser_classes((MultiPartParser, ))
 
