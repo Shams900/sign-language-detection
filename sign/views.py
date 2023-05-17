@@ -1,21 +1,20 @@
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import MultiPartParser
+from django.core.files.base import ContentFile
+from django.core.files.images import ImageFile
 from rest_framework.response import Response
 import torchvision.transforms as transforms
 from rest_framework.views import APIView
-from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import status
 from base64 import b64encode
 from PIL import Image
 from . import models
 import numpy as np
-import subprocess
 import torch
 import os
 import io
-from django.core.files.base import ContentFile
-from django.core.files.images import ImageFile
+
 
 
 
