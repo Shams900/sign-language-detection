@@ -1,7 +1,7 @@
 install django
 install djangorestframwork
-install tensorflow
-install keras
+#install tensorflow
+#install keras
 install torch
 install opencv-python
 install pandas

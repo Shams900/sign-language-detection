@@ -21,7 +21,6 @@ cwd = os.getcwd()
 model = torch.hub.load( "sign/yolov5", 'custom', source='local', path=cwd + "/sign/yolov5/best.pt", force_reload=True)
 
 @parser_classes((MultiPartParser, ))
-
 class SignView(APIView):
     def post(self, request):
         img = request.FILES.get('image')
@@ -44,6 +43,7 @@ class SignView(APIView):
             #bezo = b64encode(buffered.getvalue()).decode("utf-8")
             #data_url = 'data:image/jpeg;base64,'+bezo
             image_data = buffered.getvalue()
+            final_image = models.SignImages.objects.create(image_data)
             response = HttpResponse(image_data, content_type='image/jpeg')
             #my_model_image = models.SignImages.objects.create(image=data_url)
             """data = {
@@ -51,7 +51,11 @@ class SignView(APIView):
                 'output' : data_url
             }"""
             response['Content-Disposition'] = 'attachment; filename=output.jpg'
-            return response
+
+            data= {
+                'image': final_image.url,
+            }
+            return Response(data)
 
 
 def project(request):
