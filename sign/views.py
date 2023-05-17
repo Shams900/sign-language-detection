@@ -14,6 +14,9 @@ import subprocess
 import torch
 import os
 import io
+from django.core.files.base import ContentFile
+from django.core.files.images import ImageFile
+
 
 
 cwd = os.getcwd()
@@ -43,17 +46,23 @@ class SignView(APIView):
             #bezo = b64encode(buffered.getvalue()).decode("utf-8")
             #data_url = 'data:image/jpeg;base64,'+bezo
             image_data = buffered.getvalue()
-            final_image = models.SignImages.objects.create(theImage)
-            response = HttpResponse(image_data, content_type='image/jpeg')
+
+            # Create a ContentFile from the buffered image
+            content_file = ContentFile(image_data)
+
+            # Create an ImageFile from the ContentFile
+            image_file = ImageFile(content_file, name='image.jpg')
+            final_image = models.SignImages.objects.create(image=image_file)
+            # response = HttpResponse(image_data, content_type='image/jpeg')
             #my_model_image = models.SignImages.objects.create(image=data_url)
             """data = {
                 #'output': request.build_absolute_uri(data_url),
                 'output' : data_url
             }"""
-            response['Content-Disposition'] = 'attachment; filename=output.jpg'
+            # response['Content-Disposition'] = 'attachment; filename=output.jpg'
 
             data= {
-                'image': final_image.url,
+                'image': request.build_absolute_uri(final_image.image.url),
             }
             return Response(data)
 
