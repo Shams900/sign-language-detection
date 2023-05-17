@@ -43,7 +43,7 @@ class SignView(APIView):
             #bezo = b64encode(buffered.getvalue()).decode("utf-8")
             #data_url = 'data:image/jpeg;base64,'+bezo
             image_data = buffered.getvalue()
-            final_image = models.SignImages.objects.create(image_data)
+            final_image = models.SignImages.objects.create(theImage)
             response = HttpResponse(image_data, content_type='image/jpeg')
             #my_model_image = models.SignImages.objects.create(image=data_url)
             """data = {
